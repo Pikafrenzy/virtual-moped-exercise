@@ -199,9 +199,7 @@ public class Moped {
      * @return The current gas level, as an integer from 0 to 100.
      */
     public int getGasLevel() {
-
-
-        return 0; // placeholder only... delete this!
+        return gas*5; // placeholder only... delete this!
     }
 
     /**
