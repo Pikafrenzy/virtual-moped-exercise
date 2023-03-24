@@ -1,5 +1,6 @@
 package edu.nyu.cs;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
@@ -10,12 +11,23 @@ import java.util.Arrays;
  * The rest is up to you.
  */
 public class Moped {
+    private String orientation = "south";
+    private int street = 10;
+    private int avenue = 5;
+    private int gas = 20;
+
+    private final int maxStreet = 200;
+    private final int maxAvenue = 10;
+
+    private ArrayList<String[]> adSpots = new ArrayList<String[]>();
+
 
     /**
      * Sets the orientation of the moped to a particular cardinal direction.
      * @param orientation A string representing which cardinal direction at which to set the orientation of the moped.  E.g. "north", "south", "east", or "west".
      */
     public void setOrientation(String orientation) {
+        this.orientation = orientation;
 
     }
 
@@ -25,9 +37,97 @@ public class Moped {
      * @return The current orientation of the moped, as a lowercase String.
      */
     public String getOrientation() {
-        return ""; // placeholder only... delete this!        
+        return orientation;   
     }
 
+    /**
+     * Sets the street of the moped to a particular street.
+     * Should not be used in most cases due to black-box approach, but left as an option.
+     * @param street An int representing which street the moped should be on.
+     */
+    public void setStreet(int street){
+        this.street = street;
+    }
+
+    /**
+     * Returns the current street of the moped, as a cardinal number.
+     * E.g. 1, 2, 3, 4...
+     * @return The current street of the moped, as an int.
+     */
+    public int getStreet(){
+        return street;
+    }
+
+    /**
+     * Sets the avenue of the moped to a particular avenue.
+     * Should not be used in most cases due to black-box approach, but left as an option.
+     * @param avenue An int representing which avenuethe moped should be on.
+     */
+    public void setAvenue(int avenue){
+        this.avenue = avenue;
+    }
+
+    /**
+     * Returns the current avenue of the moped, as a cardinal number.
+     * E.g. 1, 2, 3, 4...
+     * @return The current avenue of the moped, as an int.
+     */
+    public int getAvenue(){
+        return avenue;
+    }
+    
+    /** Converts cardinal numbers to ordinal numbers.
+     * @param cardinal The cardinal number to be converted into an ordinal number, as an int.
+     * @return The ordinal number corresponding to the cardinal number, as a String.
+     */
+    private String cardinalToOrdinal(int cardinal){
+        String ordinalOutput = "";
+        if (cardinal%100 == 11 || cardinal%100 == 12 || cardinal%100 == 13){
+            ordinalOutput += (cardinal + "th");
+        }
+        else if (cardinal%10 == 1){
+            ordinalOutput += (cardinal + "st");
+        }
+        else if (cardinal%10 == 2){
+            ordinalOutput += (cardinal + "nd");
+        }
+        else if (cardinal%10 == 3){
+            ordinalOutput += (cardinal + "rd");
+        }
+        else {
+            ordinalOutput += (cardinal + "th");
+        }
+        return ordinalOutput;
+    }
+    
+    /** Capitalises the first letter of the string inputted.
+     * @param input The string to be capitalised.
+     * @return A string with the first letter capitalised and all other characters ignored.
+     */
+    private String capitaliseFirstLetter(String input){
+        String firstLetter = input.substring(0,1).toUpperCase();
+        String restOfInput = input.substring(1);
+        String output = firstLetter+restOfInput;
+        return output;
+    }
+    
+    /** Sets up ads — method here should make adding further ads easier if more sponsors obtained :)
+     * 
+     */
+    public void setupAds(){
+        String[] AMNH = new String[]{"79","8","The American Museum of Natural History is one of the world's preeminent scientific and cultural institutions."};
+        adSpots.add(AMNH);
+        String[] MSK = new String[]{"74","1","The people of Memorial Sloan Kettering Cancer Center (MSK) are united by a singular mission: ending cancer for life."};
+        adSpots.add(MSK);
+        String[] TCC = new String[]{"56","3","Here at Tina's Cuban Cuisine, we believe that great cooking starts with a simple philosophy: slow cooking served fast and fresh."};
+        adSpots.add(TCC);
+        String[] TheStrand = new String[]{"12","4","Did you know The Strand has 18 Miles of new, used and rare books, and has been in business since 1927?"};
+        adSpots.add(TheStrand);
+
+        String[] XFF = new String[]{"15","8","We have reached Xi'an Famous Foods.  Enjoy your noodles."};
+        adSpots.add(XFF);
+    }
+    
     /**
      * Prints the current location, by default exactly following the format:
      *      Now at 12th St. and 5th Ave, facing South.
@@ -38,6 +138,16 @@ public class Moped {
      * Note that the suffixes for the numbers must be correct: i.e. the "st" in "1st", "nd" in "2nd", "rd" in "3rd", "th" in "4th", etc, must be correct.
      */
     public void printLocation() {
+        String streetOrdinal = cardinalToOrdinal(street);
+        String avenueOrdinal = cardinalToOrdinal(avenue);
+        String capitalisedOrientation = capitaliseFirstLetter(orientation);
+        String fullPrint = "Now at "+streetOrdinal+ " St. and "+avenueOrdinal+" Ave, facing "+capitalisedOrientation+".";
+        for (int i = 0; i<adSpots.size();i++){
+            if (street == Integer.parseInt(adSpots.get(i)[0]) && avenue == Integer.parseInt(adSpots.get(i)[1])){
+                fullPrint += "  " + adSpots.get(i)[2];
+            }
+        }
+        System.out.println(fullPrint);
 
     }
 
@@ -89,6 +199,8 @@ public class Moped {
      * @return The current gas level, as an integer from 0 to 100.
      */
     public int getGasLevel() {
+
+
         return 0; // placeholder only... delete this!
     }
 
@@ -100,7 +212,14 @@ public class Moped {
      *      We have run out of gas.  Bye bye!
      */
     public void printGasLevel() {
-
+        int gasLevel = getGasLevel();
+        if (gasLevel==0){
+            System.out.println("We have run out of gas. Bye bye!");
+            park();
+        }
+        else {
+            System.out.println("The gas tank is currently "+gasLevel+"% full.");
+        }
     }
 
     /**
@@ -109,7 +228,7 @@ public class Moped {
      * Fills the gas level to the maximum.
      */
     public void fillGas() {
-
+        this.gas = 20;
     }
 
     /**
@@ -119,7 +238,7 @@ public class Moped {
      * (In case you were wondering, status code 1 represents quitting as a result of an error of some kind).
      */
     public void park() {
-
+        System.exit(0);
     }
 
     /**
@@ -144,7 +263,8 @@ public class Moped {
      * @param location an int array containing the new location at which to place the moped, in the order {street, avenue}.
      */
     public void setLocation(int[] location) {
-
+        this.street = location[0];
+        this.avenue = location[1];
     }
 
     /**
@@ -153,7 +273,7 @@ public class Moped {
      */
     public int[] getLocation() {
         // the following two lines are placeholder... delete them and return this moped's correct coordinates.
-        int[] location = {3, 4}; // an example array at 3rd st and 4th Ave.... placeholder only... delete this!
+        int[] location = {street, avenue}; // an example array at 3rd st and 4th Ave.... placeholder only... delete this!
         return location;
     }
 

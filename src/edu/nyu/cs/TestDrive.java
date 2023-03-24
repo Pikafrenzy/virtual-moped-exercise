@@ -13,6 +13,7 @@ public class TestDrive {
   public static void main(String[] args) throws Exception {
     Scanner scn = new Scanner(System.in);
     Moped m = new Moped();
+    m.setupAds();
 
     // solution
     System.out.println("Thanks for jumping on the moped.  We're currently parked outside Dr. Rossinsky DDS's office at 10th St. and 5th Ave, facing South.  May I say your teeth look very clean.");
@@ -47,6 +48,9 @@ public class TestDrive {
                 break;
             case "park":
                 m.park();
+                break;
+            case "help":
+                m.getHelp();
                 break;
             default:
                 System.out.println("I'm sorry, I don't understand that command. Type 'help' for a list of commands");
