@@ -50,10 +50,13 @@ public class TestDrive {
                 m.park();
                 break;
             case "help":
-                m.getHelp();
+                System.out.print(m.getHelp());
                 break;
             default:
                 System.out.println("I'm sorry, I don't understand that command. Type 'help' for a list of commands");
+        }
+        if (m.getGasLevel()==0){
+            m.printGasLevel();
         }      
     }
   }

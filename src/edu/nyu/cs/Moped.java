@@ -18,6 +18,7 @@ public class Moped {
 
     private final int maxStreet = 200;
     private final int maxAvenue = 10;
+    private final String help = "\"go left\": Makes the moped go left one block. \n\"go right\": Makes the moped go right one block. \n\"straight on\": Makes the moped go forwards one block. \n\"back up\": Makes the moped go backwards one block. \n\"how we doin'?\": Checks gas level. \n\"fill it up\": Refills the gas tank. \n\"park\": Parks the moped, exiting the program. \n\"go to Xi'an Famous Foods\": Instructs the moped to go homing to Xi'an Famous Foods. \n\"help\": Repeats this message. \n";
 
     private ArrayList<String[]> adSpots = new ArrayList<String[]>();
 
@@ -151,6 +152,29 @@ public class Moped {
 
     }
 
+    /** Checks whether the moped is currently on the boundary of the grid street-wise.
+     * @return a boolean value which is true if it is on the boundary and false if not.
+     */
+    public boolean checkStreetBoundary(){
+        if (street==maxStreet){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    /** Checks whether the moped is currently on the boundary of the grid avenue-wise.
+     * @return a boolean value which is true if it is on the boundary and false if not.
+     */
+    public boolean checkAvenueBoundary(){
+        if (avenue==maxAvenue){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     /**
      * Handles the command, `go left`.
      * Moves the moped one block to the left, and causes the moped to face the appropriate new cardinal direction.
@@ -199,7 +223,7 @@ public class Moped {
      * @return The current gas level, as an integer from 0 to 100.
      */
     public int getGasLevel() {
-        return gas*5; // placeholder only... delete this!
+        return gas*5;
     }
 
     /**
@@ -213,7 +237,7 @@ public class Moped {
         int gasLevel = getGasLevel();
         if (gasLevel==0){
             System.out.println("We have run out of gas. Bye bye!");
-            park();
+            System.exit(0);
         }
         else {
             System.out.println("The gas tank is currently "+gasLevel+"% full.");
@@ -236,6 +260,7 @@ public class Moped {
      * (In case you were wondering, status code 1 represents quitting as a result of an error of some kind).
      */
     public void park() {
+        System.out.println("We have parked");
         System.exit(0);
     }
 
@@ -245,6 +270,12 @@ public class Moped {
      * Consumes gas with each block, and doesn't move unless there is sufficient gas, as according to the instructions.
      */
     public void goToXianFamousFoods() {
+        while (street!=15){
+
+        }
+        while (avenue!=8){
+
+        }
 
     }
 
@@ -253,7 +284,7 @@ public class Moped {
      * @return String containing commands that the user can type to control the moped.
      */
     public String getHelp() {
-        return ""; // placeholder only... delete this!        
+        return help;     
     }
 
     /**
