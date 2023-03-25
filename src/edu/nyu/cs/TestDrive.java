@@ -42,9 +42,13 @@ public class TestDrive {
                 break;
             case "fill it up":
                 m.fillGas();
+                m.printGasLevel();
                 break;
             case "how we doin'?":
                 m.printGasLevel();
+                break;
+            case "go to Xi'an Famous Foods":
+                m.goToXianFamousFoods();
                 break;
             case "park":
                 m.park();

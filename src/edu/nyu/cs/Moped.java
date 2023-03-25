@@ -12,10 +12,13 @@ import java.util.Arrays;
  */
 public class Moped {
     private String orientation = "south";
+    private int orientationNumber = 0;
     private int street = 10;
     private int avenue = 5;
     private int gas = 20;
 
+    private final int minStreet = 1;
+    private final int minAvenue = 1;
     private final int maxStreet = 200;
     private final int maxAvenue = 10;
     private final String help = "\"go left\": Makes the moped go left one block. \n\"go right\": Makes the moped go right one block. \n\"straight on\": Makes the moped go forwards one block. \n\"back up\": Makes the moped go backwards one block. \n\"how we doin'?\": Checks gas level. \n\"fill it up\": Refills the gas tank. \n\"park\": Parks the moped, exiting the program. \n\"go to Xi'an Famous Foods\": Instructs the moped to go homing to Xi'an Famous Foods. \n\"help\": Repeats this message. \n";
@@ -152,10 +155,10 @@ public class Moped {
 
     }
 
-    /** Checks whether the moped is currently on the boundary of the grid street-wise.
+    /** Checks whether the moped is currently on the northern boundary of the grid.
      * @return a boolean value which is true if it is on the boundary and false if not.
      */
-    public boolean checkStreetBoundary(){
+    public boolean checkNorthBoundary(){
         if (street==maxStreet){
             return true;
         }
@@ -163,10 +166,10 @@ public class Moped {
             return false;
         }
     }
-    /** Checks whether the moped is currently on the boundary of the grid avenue-wise.
+    /** Checks whether the moped is currently on the western boundary of the grid.
      * @return a boolean value which is true if it is on the boundary and false if not.
      */
-    public boolean checkAvenueBoundary(){
+    public boolean checkWestBoundary(){
         if (avenue==maxAvenue){
             return true;
         }
@@ -174,7 +177,48 @@ public class Moped {
             return false;
         }
     }
-
+    /** Checks whether the moped is currently on the southern boundary of the grid.
+     * @return a boolean value which is true if it is on the boundary and false if not.
+     */
+    public boolean checkSouthBoundary(){
+        if (street==minStreet){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+    /** Checks whether the moped is currently on the eastern boundary of the grid.
+     * @return a boolean value which is true if it is on the boundary and false if not.
+     */
+    public boolean checkEastBoundary(){
+        if (avenue==minAvenue){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+   
+    /** Updates the String for orientation. Call whenever orientationNumber is changed!!
+     * 
+     */
+    private void orientationNumberToOrientation(){
+        switch(orientationNumber%4){
+            case 0:
+                this.orientation = "south";
+                break;
+            case 1:
+                this.orientation = "west";
+                break;
+            case 2:
+                this.orientation = "north";
+                break;
+            case 3:
+                this.orientation = "east";
+                break;
+        }
+    }
     /**
      * Handles the command, `go left`.
      * Moves the moped one block to the left, and causes the moped to face the appropriate new cardinal direction.
@@ -183,7 +227,11 @@ public class Moped {
      * This method must not print anything.
      */
     public void goLeft() {
-
+        if (getGasLevel()!=0){
+            orientationNumber +=3;
+            orientationNumberToOrientation();
+            goStraight();
+        }
     }
 
     /**
@@ -194,7 +242,11 @@ public class Moped {
      * This method must not print anything.
      */
     public void goRight() {
-
+        if (getGasLevel()!=0){
+            orientationNumber +=1;
+            orientationNumberToOrientation();
+            goStraight();
+        }
     }
 
     /**
@@ -204,7 +256,31 @@ public class Moped {
      * This method must not print anything.
      */
     public void goStraight() {
-
+       if(getGasLevel()!=0){
+        switch(orientation){
+            case "north":
+                if(!checkNorthBoundary()){
+                    street++;
+                }
+                break;
+            case "south":
+                if(!checkSouthBoundary()){
+                    street--;
+                }
+                break;
+            case "east":
+                if(!checkEastBoundary()){
+                    avenue--;
+                }
+                break;
+            case "west":
+                if(!checkWestBoundary()){
+                    avenue++;
+                }
+                break;
+        }
+        gas--;
+       }
     }
 
     /**
@@ -214,7 +290,13 @@ public class Moped {
      * This method must not print anything.
      */
     public void goBackwards() {
-
+        if (getGasLevel()!=0){
+            orientationNumber +=2;
+            orientationNumberToOrientation();
+            goStraight();
+            orientationNumber +=2;
+            orientationNumberToOrientation();
+        }
     }
 
     /**
@@ -271,12 +353,38 @@ public class Moped {
      */
     public void goToXianFamousFoods() {
         while (street!=15){
-
+            if (orientationNumber%4 == 1){
+                goRight();
+                orientationNumberToOrientation();
+            }
+            else if (orientationNumber%4 == 3){
+                goLeft();
+                orientationNumberToOrientation();
+            }
+            else if (orientationNumber%4 == 0){
+                goBackwards();
+                orientationNumberToOrientation();
+            }
+            else {
+                goStraight();
+                orientationNumberToOrientation();
+            }
+            if(getGasLevel()==0){
+                fillGas();
+            }
+            printLocation();
         }
+        goRight();
         while (avenue!=8){
-
+            if(avenue>8){
+                goBackwards();
+            }
+            else{
+                goStraight();
+            }
+            printLocation();
         }
-
+        printLocation();
     }
 
     /**
@@ -301,8 +409,7 @@ public class Moped {
      * @return The current location of the moped, as an int array in the order {street, avenue}.
      */
     public int[] getLocation() {
-        // the following two lines are placeholder... delete them and return this moped's correct coordinates.
-        int[] location = {street, avenue}; // an example array at 3rd st and 4th Ave.... placeholder only... delete this!
+        int[] location = {street, avenue};
         return location;
     }
 
