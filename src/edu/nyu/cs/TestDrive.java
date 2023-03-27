@@ -12,10 +12,10 @@ public class TestDrive {
    */
   public static void main(String[] args) throws Exception {
     Scanner scn = new Scanner(System.in);
-    Moped m = new Moped(10,5);
+    Moped m = new Moped();
     m.setupAds();
-    Moped drunk1 = new Moped(16,6);
-    Moped drunk2 = new Moped(47,3);
+    Moped drunk1 = new Moped();
+    Moped drunk2 = new Moped();
 
     // solution
     System.out.println("Thanks for jumping on the moped.  We're currently parked outside Dr. Rossinsky DDS's office at 10th St. and 5th Ave, facing South.  May I say your teeth look very clean.");

@@ -16,8 +16,8 @@ public class Moped{
     
     private String orientation = "south";
     private int orientationNumber = 0;
-    private int street = 1;
-    private int avenue = 1;
+    private int street = 10;
+    private int avenue = 5;
     private int gas = 20;
     private static int mopedAmount = 0;
     private int index = 0;
@@ -31,12 +31,14 @@ public class Moped{
     private ArrayList<String[]> adSpots = new ArrayList<String[]>();
 
 
-    public Moped(int street, int avenue) {
-        this.street = street;
-        this.avenue = avenue;
+    public Moped() {
         index = mopedAmount;
         mopedAmount++;
-
+        if (index != 0){
+            Random rand = new Random();
+            this.street = rand.nextInt(maxStreet)+1;
+            this.avenue = rand.nextInt(maxAvenue)+1;
+        }
     }
 
     /**
@@ -232,6 +234,26 @@ public class Moped{
                 break;
         }
     }
+    /** Updates the orientationNumber assuming orientation is changed manually. Please don't use this.
+     * 
+     */
+    private void orientationToNumber(){
+        switch(orientation){
+            case "south":
+                this.orientationNumber = 0;
+                break;
+            case "west":
+                this.orientationNumber = 1;
+                break;
+            case "north":
+                this.orientationNumber = 2;
+                break;
+                case "east":
+                this.orientationNumber = 3;
+                break;
+        }
+
+    }
     /**
      * Handles the command, `go left`.
      * Moves the moped one block to the left, and causes the moped to face the appropriate new cardinal direction.
@@ -241,6 +263,7 @@ public class Moped{
      */
     public void goLeft() {
         if (getGasLevel()!=0){
+            orientationToNumber();
             orientationNumber +=3;
             orientationNumberToOrientation();
             goStraight();
@@ -256,6 +279,7 @@ public class Moped{
      */
     public void goRight() {
         if (getGasLevel()!=0){
+            orientationToNumber();
             orientationNumber +=1;
             orientationNumberToOrientation();
             goStraight();
@@ -274,25 +298,28 @@ public class Moped{
             case "north":
                 if(!checkNorthBoundary()){
                     street++;
+                    gas--;
                 }
                 break;
             case "south":
                 if(!checkSouthBoundary()){
                     street--;
+                    gas--;
                 }
                 break;
             case "east":
                 if(!checkEastBoundary()){
                     avenue--;
+                    gas--;
                 }
                 break;
             case "west":
                 if(!checkWestBoundary()){
                     avenue++;
+                    gas--;
                 }
                 break;
         }
-        gas--;
        }
     }
 
@@ -304,11 +331,32 @@ public class Moped{
      */
     public void goBackwards() {
         if (getGasLevel()!=0){
-            orientationNumber +=2;
-            orientationNumberToOrientation();
-            goStraight();
-            orientationNumber +=2;
-            orientationNumberToOrientation();
+            switch(orientation){
+                case "south":
+                    if(!checkNorthBoundary()){
+                        street++;
+                        gas--;
+                    }
+                    break;
+                case "north":
+                    if(!checkSouthBoundary()){
+                        street--;
+                        gas--;
+                    }
+                    break;
+                case "west":
+                    if(!checkEastBoundary()){
+                        avenue--;
+                        gas--;
+                    }
+                    break;
+                case "east":
+                    if(!checkWestBoundary()){
+                        avenue++;
+                        gas--;
+                    }
+                    break;
+            }
         }
     }
 
