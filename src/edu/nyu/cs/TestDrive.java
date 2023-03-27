@@ -71,13 +71,21 @@ public class TestDrive {
             drunk2.fillGas();
         }
 
-        if (m.getLocation().equals(drunk1.getLocation())||m.getLocation().equals(drunk2.getLocation())){
+        if (sameLocation(m,drunk1)||sameLocation(m, drunk2)){
             m.crash();
         }
         if (m.getGasLevel()==0){
             m.printGasLevel();
         }
     }
+  }
+  public static boolean sameLocation(Moped m, Moped drunk){
+    for (int i = 0; i< m.getLocation().length;i++){
+        if (m.getLocation()[i] != drunk.getLocation()[i]){
+            return false;
+        }
+    }
+    return true;
   }
 
 }
