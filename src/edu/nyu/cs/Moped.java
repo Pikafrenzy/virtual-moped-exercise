@@ -423,11 +423,19 @@ public class Moped{
                 orientationNumberToOrientation();
             }
             else if (orientationNumber%4 == 0){
-                goBackwards();
+                if (street <15){
+                    goBackwards();
+                } else {
+                    goStraight();
+                }
                 orientationNumberToOrientation();
             }
             else {
-                goStraight();
+                if (street >15){
+                    goBackwards();
+                } else {
+                    goStraight();
+                }
                 orientationNumberToOrientation();
             }
             if(getGasLevel()==0){
@@ -436,6 +444,7 @@ public class Moped{
             printLocation();
         }
         goRight();
+        printLocation();
         while (avenue!=8){
             if(avenue>8){
                 goBackwards();
@@ -445,7 +454,6 @@ public class Moped{
             }
             printLocation();
         }
-        printLocation();
     }
 
     /**
