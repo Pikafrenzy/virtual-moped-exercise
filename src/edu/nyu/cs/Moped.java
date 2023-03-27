@@ -47,7 +47,7 @@ public class Moped{
      */
     public void setOrientation(String orientation) {
         this.orientation = orientation;
-
+        orientationToNumber();
     }
 
     /**
@@ -263,7 +263,6 @@ public class Moped{
      */
     public void goLeft() {
         if (getGasLevel()!=0){
-            orientationToNumber();
             orientationNumber +=3;
             orientationNumberToOrientation();
             goStraight();
@@ -279,7 +278,6 @@ public class Moped{
      */
     public void goRight() {
         if (getGasLevel()!=0){
-            orientationToNumber();
             orientationNumber +=1;
             orientationNumberToOrientation();
             goStraight();
@@ -443,17 +441,29 @@ public class Moped{
             }
             printLocation();
         }
-        goRight();
-        printLocation();
-        while (avenue!=8){
-            if(avenue>8){
-                goBackwards();
-            }
-            else{
-                goStraight();
-            }
+        if (avenue != 8){
+            goRight();
             printLocation();
-        }
+            while (avenue!=8){
+                if(avenue>8){
+                    if(orientation.equals("west")){
+                        goBackwards();
+                    }
+                    else if (orientation.equals("east")){
+                        goStraight();
+                    }
+                }
+                else{
+                    if(orientation.equals("east")){
+                        goBackwards();
+                    }
+                    else if (orientation.equals("west")){
+                        goStraight();
+                    }
+                }
+                printLocation();
+            } 
+        } 
     }
 
     /**
