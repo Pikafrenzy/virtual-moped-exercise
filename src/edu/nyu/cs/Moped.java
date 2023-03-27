@@ -2,6 +2,7 @@ package edu.nyu.cs;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 /**
  * A virtual moped, roaming the streets of New York.
@@ -10,12 +11,16 @@ import java.util.Arrays;
  * Follow good object-oriented design, especially the principles of abstraction (i.e. the black box metaphor) and encapsulation (i.e. methods and properties belonging to specific objects), as we have learned them.
  * The rest is up to you.
  */
-public class Moped {
+public class Moped{
+
+    
     private String orientation = "south";
     private int orientationNumber = 0;
-    private int street = 10;
-    private int avenue = 5;
+    private int street = 1;
+    private int avenue = 1;
     private int gas = 20;
+    private static int mopedAmount = 0;
+    private int index = 0;
 
     private final int minStreet = 1;
     private final int minAvenue = 1;
@@ -25,6 +30,14 @@ public class Moped {
 
     private ArrayList<String[]> adSpots = new ArrayList<String[]>();
 
+
+    public Moped(int street, int avenue) {
+        this.street = street;
+        this.avenue = avenue;
+        index = mopedAmount;
+        mopedAmount++;
+
+    }
 
     /**
      * Sets the orientation of the moped to a particular cardinal direction.
@@ -41,7 +54,7 @@ public class Moped {
      * @return The current orientation of the moped, as a lowercase String.
      */
     public String getOrientation() {
-        return orientation;   
+        return this.orientation;   
     }
 
     /**
@@ -145,7 +158,7 @@ public class Moped {
         String streetOrdinal = cardinalToOrdinal(street);
         String avenueOrdinal = cardinalToOrdinal(avenue);
         String capitalisedOrientation = capitaliseFirstLetter(orientation);
-        String fullPrint = "Now at "+streetOrdinal+ " St. and "+avenueOrdinal+" Ave, facing "+capitalisedOrientation+".";
+        String fullPrint = name() + " is now at "+streetOrdinal+ " St. and "+avenueOrdinal+" Ave, facing "+capitalisedOrientation+".";
         for (int i = 0; i<adSpots.size();i++){
             if (street == Integer.parseInt(adSpots.get(i)[0]) && avenue == Integer.parseInt(adSpots.get(i)[1])){
                 fullPrint += "  " + adSpots.get(i)[2];
@@ -411,6 +424,46 @@ public class Moped {
     public int[] getLocation() {
         int[] location = {street, avenue};
         return location;
+    }
+    /**
+     * Exits program in case of moped crash.
+     */
+    public void crash(){
+        System.out.println("Your  moped has crashed and is totally unusable...");
+        System.exit(0);
+    }
+
+    /** Moves randomly (for the Drunk drivers!)
+     * 
+     */
+    public void randomMove(){
+        Random random = new Random();
+        int randomNumber = random.nextInt(100);
+        switch(randomNumber%4){
+            case 0:
+                goLeft();
+                break;
+            case 1:
+                goRight();
+                break;
+            case 2:
+                goBackwards();
+                break;
+            case 3:
+                goStraight();
+                break;
+        }
+    }
+
+    public String name(){
+        String output = "";
+        if (index==0){
+            output += "User Moped";
+        }
+        else {
+            output += "Drunk Moped " + index;
+        }
+        return output;
     }
 
 }

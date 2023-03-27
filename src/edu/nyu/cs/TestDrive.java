@@ -12,8 +12,10 @@ public class TestDrive {
    */
   public static void main(String[] args) throws Exception {
     Scanner scn = new Scanner(System.in);
-    Moped m = new Moped();
+    Moped m = new Moped(10,5);
     m.setupAds();
+    Moped drunk1 = new Moped(16,6);
+    Moped drunk2 = new Moped(47,3);
 
     // solution
     System.out.println("Thanks for jumping on the moped.  We're currently parked outside Dr. Rossinsky DDS's office at 10th St. and 5th Ave, facing South.  May I say your teeth look very clean.");
@@ -59,9 +61,22 @@ public class TestDrive {
             default:
                 System.out.println("I'm sorry, I don't understand that command. Type 'help' for a list of commands");
         }
+
+        drunk1.randomMove();
+        drunk2.randomMove();
+        drunk1.printLocation();
+        drunk2.printLocation();
+        if (drunk1.getGasLevel()<= 10){
+            drunk1.fillGas();
+            drunk2.fillGas();
+        }
+
+        if (m.getLocation().equals(drunk1.getLocation())||m.getLocation().equals(drunk2.getLocation())){
+            m.crash();
+        }
         if (m.getGasLevel()==0){
             m.printGasLevel();
-        }      
+        }
     }
   }
 
