@@ -378,7 +378,6 @@ public class Moped{
         int gasLevel = getGasLevel();
         if (gasLevel==0){
             System.out.println("We have run out of gas. Bye bye!");
-            System.exit(0);
         }
         else {
             System.out.println("The gas tank is currently "+gasLevel+"% full.");
@@ -402,7 +401,7 @@ public class Moped{
      */
     public void park() {
         System.out.println("We have parked");
-        System.exit(0);
+        
     }
 
     /**
@@ -496,7 +495,6 @@ public class Moped{
      */
     public void crash(){
         System.out.println("Your  moped has crashed and is totally unusable...");
-        System.exit(0);
     }
 
     /** Moves randomly (for the Drunk drivers!)

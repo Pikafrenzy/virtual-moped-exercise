@@ -23,7 +23,7 @@ public class TestDrive {
 
     boolean keepGoing = true;
     String response = "";
-    while (!response.equals("park")) {
+    while (!keepGoing) {
       response = scn.nextLine();
         switch (response) {
             case "go left":
@@ -54,6 +54,7 @@ public class TestDrive {
                 break;
             case "park":
                 m.park();
+                keepGoing = false;
                 break;
             case "help":
                 System.out.print(m.getHelp());
@@ -73,9 +74,13 @@ public class TestDrive {
 
         if (sameLocation(m,drunk1)||sameLocation(m, drunk2)){
             m.crash();
+            keepGoing = false;
+            continue;
         }
         if (m.getGasLevel()==0){
             m.printGasLevel();
+            keepGoing = false;
+            continue;
         }
     }
   }
